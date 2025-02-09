@@ -30,7 +30,7 @@ where [HEIGHT] is the optional argument. It can be either nothing or a
 positive integer.
 
 ## License
-Copyright © 205 Hannes Malcha
+Copyright © 2025 Hannes Malcha
 
 Froots is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
