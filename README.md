@@ -1,5 +1,5 @@
 # Froots
-**Froots** is a python module to construct the root system
+**Froots** is a python package to construct the root system
 of the Feingold-Frenkel algebra to arbitrary height.
 
 **Froots** is based on the
