@@ -56,6 +56,12 @@ class Fraction:
             _gcd = math.gcd(self.numerator, self.denominator)
             self.numerator = self.numerator // _gcd
             self.denominator = self.denominator // _gcd
+        
+        # Ensure the denominator is positive.
+        if self.denominator < 0:
+            self.numerator = -self.numerator
+            self.denominator = - self.denominator    
+        
             
     def add(self, fraction):
         """
@@ -96,8 +102,6 @@ class Fraction:
         """
         if self.denominator == 1:
             return self.numerator
-        elif self.denominator == -1:
-            return -self.numerator
         # If this error is ever raised something is wrong with the calculation
         # of the root system.
         raise ValueError(f"{self.numerator} / {self.denominator} is not an integer!")
