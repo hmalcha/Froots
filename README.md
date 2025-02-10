@@ -12,8 +12,7 @@ fractions.
 
 ## Usage
 **Froots** requires a Python 3 installation with 
-[NumPy](https://numpy.org/) and
-[primefac](https://pypi.org/project/primefac/).
+[NumPy](https://numpy.org/).
 **Froots** is called with one optional argument from the
 command line. The argument is the heigh up to which the root
 system will be constructed. If no argument is given, the calculation

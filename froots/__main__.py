@@ -18,17 +18,17 @@
 # along with Froots. If not, see <https://www.gnu.org/licenses/>.
 
 """
-Froots is python package to construct the root system of the 
+Froots is a Python package to construct the root system of the 
 Feingold-Frenkel algebra to arbitrary height
 
-This is the __main__.py file of the froots package that constructs
+This is the __main__.py file of the Froots package that constructs
 the root system of the Feingold-Frenkel algebra.
 
 The package is called with one optional argument from the command line.
 The argument is the height up to which the root system will be constructed.
 If no argument is given the calculation defaults to a height of 76.
 
-Upon executing the froots package the root system is automatically 
+Upon executing the Froots package the root system is automatically 
 constructed up to the given height and stored as a csv file in the 
 current directory. The first three numbers in each row are the root 
 vector and the last number is the multiplicity of that root.

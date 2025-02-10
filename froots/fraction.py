@@ -23,15 +23,13 @@
 # https://github.com/teake/simplie.
 
 """
-Froots is python package to construct the root system of the 
+Froots is a Python package to construct the root system of the 
 Feingold-Frenkel algebra to arbitrary height.
 
 This class defines a fraction of very large integers.
 """
 
-import primefac
 import math
-from collections import Counter
 
 class Fraction:
     """
@@ -43,26 +41,22 @@ class Fraction:
     """
 
     def __init__(self, numerator, denominator=1):
-        self.numerator = int(numerator)
-        self.denominator = int(denominator)
+        self.numerator = numerator
+        self.denominator = denominator
         self.normalize()
         
-        if denominator != 1 and numerator != 0:
-            self.normalize()
-        
+  
     def normalize(self):
+        """
+        Normalize the fraction.
+        """
         if self.numerator == 0:
             self.denominator = 1
         elif self.denominator != 1:
-            _num_fac = Counter(primefac.primefac(self.numerator))
-            _denom_fac = Counter(primefac.primefac(self.denominator))
-            _gcd = {p: min(_num_fac[p], _denom_fac[p]) for p in _num_fac.keys() & _denom_fac.keys()}
-            for p in _gcd:
-                _num_fac[p] -= _gcd[p]
-                _denom_fac[p] -= _gcd[p]
-            self.numerator = math.prod([p**_num_fac[p] for p in _num_fac.keys()])
-            self.denominator = math.prod([p**_denom_fac[p] for p in _denom_fac.keys()])    
-   
+            _gcd = math.gcd(self.numerator, self.denominator)
+            self.numerator = self.numerator // _gcd
+            self.denominator = self.denominator // _gcd
+            
     def add(self, fraction):
         """
         Add a fraction to this one.
@@ -95,6 +89,15 @@ class Fraction:
         return Fraction(self.numerator * n, self.denominator)
 
     def toInt(self):
+        """
+        Return an integer.
+        
+        This is only called when it is known that the Fraction must be an integer.
+        """
         if self.denominator == 1:
             return self.numerator
+        elif self.denominator == -1:
+            return -self.numerator
+        # If this error is ever raised something is wrong with the calculation
+        # of the root system.
         raise ValueError(f"{self.numerator} / {self.denominator} is not an integer!")

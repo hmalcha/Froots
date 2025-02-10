@@ -27,14 +27,13 @@
 
 
 """
-Froots is python package to construct the root system of the 
+Froots is a Python package to construct the root system of the  
 Feingold-Frenkel algebra to arbitrary height.
 
 Given an infinite dimensional algebra this class stores its root system.
 """
 
 import numpy as np
-#from fractions import Fraction
 from fraction import Fraction
 from root import Root
 
@@ -257,7 +256,7 @@ class Root_System:
                     else:
                         root.mult = self._calculate_mult(root, _co_mult)
                         
-                root.co_mult = _co_mult.add(Fraction(root.mult))
+                root.co_mult = _co_mult.add(Fraction(int(root.mult)))
                 
             # Construct all the root multiples of the roots at the new height
             _multiples_list = []
@@ -309,7 +308,7 @@ class Root_System:
             _div_root = root.div(i)
             
             if _div_root is not None:
-                _co_mult = _co_mult.add(Fraction(self._get_root_mult(_div_root),i))
+                _co_mult = _co_mult.add(Fraction(int(self._get_root_mult(_div_root)),i))
                 
         return _co_mult
                     
@@ -339,7 +338,7 @@ class Root_System:
         if root.height() % 2 == 0:
             _multiplicity = _multiplicity.add(self._peterson_part(root, root.height()//2))
             
-        _multiplicity = _multiplicity.multiply(Fraction(1,self.algebra.inner_product(root, root) - (2 * self.algebra.rho(root))))
+        _multiplicity = _multiplicity.multiply(Fraction(1,int(self.algebra.inner_product(root, root) - (2 * self.algebra.rho(root)))))
         _multiplicity = _multiplicity.subtract(co_mult)
                 
         # Return the multiplicity as an integer
@@ -350,7 +349,7 @@ class Root_System:
         """
         Calculate a part of the Peterson formula.
         
-        That is the r.h.s for a given value of the height
+        That is the rhs for a given value of the height
         of one of the decomposition parts.
         """
         
@@ -376,9 +375,9 @@ class Root_System:
         
         Keyword arguments:
             root: The root for which we compute the multiplicity
-            list_1: The first list of roots that is used in the r.h.s
+            list_1: The first list of roots that is used in the rhs
                     of the Peterson formula.
-            list_2: The second list of roots that is used in the r.h.s
+            list_2: The second list of roots that is used in the rhs
                     of the Peterson formula.
         """
         
@@ -390,7 +389,7 @@ class Root_System:
                         break
                 else:
                     _part = beta.co_mult.multiply(gamma.co_mult)
-                    _part = _part.multiply(Fraction(self.algebra.inner_product(beta, gamma)))
+                    _part = _part.multiply(Fraction(int(self.algebra.inner_product(beta, gamma))))
                     _multiplicity = _multiplicity.add(_part)
         return _multiplicity
 

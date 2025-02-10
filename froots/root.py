@@ -23,7 +23,7 @@
 # https://github.com/teake/simplie.
 
 """
-Froots is python package to construct the root system of the 
+Froots is a Python package to construct the root system of the
 Feingold-Frenkel algebra to arbitrary height.
 
 This class stores root information.

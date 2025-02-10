@@ -28,7 +28,7 @@
 #   constructing the root system of F 
 
 """
-Froots is python package to construct the root system of the 
+Froots is a Python package to construct the root system of the  
 Feingold-Frenkel algebra to arbitrary height.
 
 This class creates an object which has most properties of the Feingold-Frenkel
