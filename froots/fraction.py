@@ -97,6 +97,4 @@ class Fraction:
     def toInt(self):
         if self.denominator == 1:
             return self.numerator
-        else:
-           print(f"{self.numerator} / {self.denominator} is not an integer!")
-           return 0
+        raise ValueError(f"{self.numerator} / {self.denominator} is not an integer!")

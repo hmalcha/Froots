@@ -236,7 +236,7 @@ class Root_System:
                 # Only calculate the mult is it hasn't been set before
                 if root.mult == 0:
                     # First try to get the multiplicity from another root in 
-					# this roots Weyl-orbit. We only need to do one simple Weyl-reflection 
+					# this roots Weyl orbit. We only need to do one simple Weyl reflection 
 					# down, as all the roots below this height have been calculated before.
 
 					# First determine the first positive Dynkin label.
@@ -341,18 +341,7 @@ class Root_System:
             
         _multiplicity = _multiplicity.multiply(Fraction(1,self.algebra.inner_product(root, root) - (2 * self.algebra.rho(root))))
         _multiplicity = _multiplicity.subtract(co_mult)
-        
-        # This should go away soon!!!
-        # Issue a warning if the multiplicity is not an integer.
-        # This usually happens as soon as one of the co-multiplicities
-        # is of the order 2^64.
-        # At the moment there is no fix for this.
-        # One should not trust the root system for heights at which
-        # the warning message is issued.
-        # Currently this height is 84.
-        if not _multiplicity.denominator == 1:
-            print("WARNING: Mult of root " + str(root.vector) + " is not an int but " + str(_multiplicity.numerator) + "/" + str(_multiplicity.denominator) + "." )
-        
+                
         # Return the multiplicity as an integer
         return _multiplicity.toInt()
                 
