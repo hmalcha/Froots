@@ -5,17 +5,19 @@ of the Feingold-Frenkel algebra to arbitrary height.
 **Froots** is based on the
 SimpLie program written by Teake Nutma, which is available at
 https://github.com/teake/simplie. **Froots** extends the
-scope of SimpLie by enableing the calculation of roots with
+scope of SimpLie by enabling the calculation of roots with
 arbitrary height. This is achieved through the implementation
 of custom classes for handling very large integers and
 fractions.
 
 ## Usage
-**Froots** requires a Python installation with 
-[NumPy](https://numpy.org/). **Froots** is called with one
-optional argument from the command line. The argument is the
-heigh up to which the root system will be constructed.
-If no argument is given, the calculation defaults to a height of 76.
+**Froots** requires a Python 3 installation with 
+[NumPy](https://numpy.org/) and
+[primefac](https://pypi.org/project/primefac/).
+**Froots** is called with one optional argument from the
+command line. The argument is the heigh up to which the root
+system will be constructed. If no argument is given, the calculation
+defaults to a height of 76.
 
 The output is stored as a CSV file in the current directory.
 The first three numbers in each row are the root vector and

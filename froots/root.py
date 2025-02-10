@@ -2,7 +2,7 @@
 
 # This file is part of Froots.
 #
-# Copyright (C) 2024 Hannes Malcha 
+# Copyright (C) 2025 Hannes Malcha 
 #
 # Froots is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 Froots is python package to construct the root system of the 
 Feingold-Frenkel algebra to arbitrary height.
 
-This class store root information.
+This class stores root information.
 """
 
 import numpy as np
@@ -36,7 +36,7 @@ class Root:
     A class for storing root information.
     
     Attributes:
-        vector: The oot vector
+        vector: The root vector
         mult: The root multiplicity
         co_mult: The co-multiplicity of the root
         norm: The norm of the root

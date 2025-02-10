@@ -2,7 +2,7 @@
 
 # This file is part of Froots.
 #
-# Copyright (C) 2024 Hannes Malcha 
+# Copyright (C) 2025 Hannes Malcha 
 #
 # Froots is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

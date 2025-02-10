@@ -36,8 +36,8 @@ vector and the last number is the multiplicity of that root.
 
 import argparse
 import time
-from .feingold_frenkel_algebra import Feingold_Frenkel_Algebra
-from .root_system import Root_System
+from feingold_frenkel_algebra import Feingold_Frenkel_Algebra
+from root_system import Root_System
 
 def _check_positive(value):
         """Check if the argument given to the parser is a positive int."""

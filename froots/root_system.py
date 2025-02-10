@@ -2,7 +2,7 @@
 
 # This file is part of Froots.
 #
-# Copyright (C) 2024 Hannes Malcha 
+# Copyright (C) 2025 Hannes Malcha 
 #
 # Froots is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,8 +34,9 @@ Given an infinite dimensional algebra this class stores its root system.
 """
 
 import numpy as np
-from fractions import Fraction
-from .root import Root
+#from fractions import Fraction
+from fraction import Fraction
+from root import Root
 
 class Root_System:
     """
@@ -256,7 +257,7 @@ class Root_System:
                     else:
                         root.mult = self._calculate_mult(root, _co_mult)
                         
-                root.co_mult = _co_mult + Fraction(root.mult)
+                root.co_mult = _co_mult.add(Fraction(root.mult))
                 
             # Construct all the root multiples of the roots at the new height
             _multiples_list = []
@@ -308,7 +309,7 @@ class Root_System:
             _div_root = root.div(i)
             
             if _div_root is not None:
-                _co_mult += Fraction(self._get_root_mult(_div_root),i)
+                _co_mult = _co_mult.add(Fraction(self._get_root_mult(_div_root),i))
                 
         return _co_mult
                     
@@ -331,16 +332,17 @@ class Root_System:
         _half_height = int(np.ceil(root.height() / 2))
         
         for i in range(1, _half_height):
-            _multiplicity += self._peterson_part(root, i)
+            _multiplicity = _multiplicity.add(self._peterson_part(root, i))
             
-        _multiplicity *= 2
+        _multiplicity = _multiplicity.times(2)
         
         if root.height() % 2 == 0:
-            _multiplicity += self._peterson_part(root, root.height()//2)
+            _multiplicity = _multiplicity.add(self._peterson_part(root, root.height()//2))
             
-        _multiplicity *= Fraction(1,self.algebra.inner_product(root, root) - (2 * self.algebra.rho(root)))
-        _multiplicity -= co_mult
+        _multiplicity = _multiplicity.multiply(Fraction(1,self.algebra.inner_product(root, root) - (2 * self.algebra.rho(root))))
+        _multiplicity = _multiplicity.subtract(co_mult)
         
+        # This should go away soon!!!
         # Issue a warning if the multiplicity is not an integer.
         # This usually happens as soon as one of the co-multiplicities
         # is of the order 2^64.
@@ -348,11 +350,11 @@ class Root_System:
         # One should not trust the root system for heights at which
         # the warning message is issued.
         # Currently this height is 84.
-        if not _multiplicity.is_integer():
-            print("WARNING: Mult of root " + str(root.vector) + " is not an int but " + str(_multiplicity) + "." )
+        if not _multiplicity.denominator == 1:
+            print("WARNING: Mult of root " + str(root.vector) + " is not an int but " + str(_multiplicity.numerator) + "/" + str(_multiplicity.denominator) + "." )
         
         # Return the multiplicity as an integer
-        return round(_multiplicity)
+        return _multiplicity.toInt()
                 
 
     def _peterson_part(self, root, height):
@@ -371,9 +373,9 @@ class Root_System:
         _beta_multiples = self._root_multiples[height]
         _gamma_multiples = self._root_multiples[root.height() - height]
         
-        _multiplicity += self._peterson_sub_part(root, _beta_multiples, _gamma_multiples)
-        _multiplicity += self._peterson_sub_part(root, _betas, _gamma_multiples)
-        _multiplicity += self._peterson_sub_part(root, _beta_multiples, _gammas)
+        _multiplicity = _multiplicity.add(self._peterson_sub_part(root, _beta_multiples, _gamma_multiples))
+        _multiplicity = _multiplicity.add(self._peterson_sub_part(root, _betas, _gamma_multiples))
+        _multiplicity = _multiplicity.add(self._peterson_sub_part(root, _beta_multiples, _gammas))
         
         return _multiplicity
     
@@ -398,10 +400,9 @@ class Root_System:
                     if beta.vector[i] + gamma.vector[i] != root.vector[i]:
                         break
                 else:
-                    _part = (beta.co_mult) * (gamma.co_mult)
-                    _part *= Fraction(self.algebra.inner_product(beta, gamma))
-                    _multiplicity += _part
-
+                    _part = beta.co_mult.multiply(gamma.co_mult)
+                    _part = _part.multiply(Fraction(self.algebra.inner_product(beta, gamma)))
+                    _multiplicity = _multiplicity.add(_part)
         return _multiplicity
 
 
