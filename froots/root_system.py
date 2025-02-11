@@ -34,8 +34,8 @@ Given an infinite dimensional algebra this class stores its root system.
 """
 
 import numpy as np
-from fraction import Fraction
-from root import Root
+from .fraction import Fraction
+from .root import Root
 
 class Root_System:
     """
