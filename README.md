@@ -18,7 +18,7 @@ command line. The argument is the heigh up to which the root
 system will be constructed. If no argument is given, the calculation
 defaults to a height of 76.
 
-The output is stored as a CSV file in the current directory.
+The output is stored as a .txt file in the current directory.
 The first three numbers in each row are the root vector and
 the last number is the multiplicity of that root.
 
