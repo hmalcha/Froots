@@ -25,10 +25,15 @@ the last number is the multiplicity of that root.
 To run the package type
 
 ```
-python -m froots [HEIGHT]
+python3 -m froots [HEIGHT]
 ```
 where [HEIGHT] is the optional argument. It can be either nothing or a 
 positive integer.
+
+## Output
+The file **roots.txt** contains the roots of the Feingold-Frenkel
+algebra up to height 200. On a modern computer it takes about
+12 hours to generate this file.
 
 ## License
 Copyright © 2025 Hannes Malcha
