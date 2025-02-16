@@ -32,8 +32,10 @@ positive integer.
 
 ## Output
 The file **roots.txt** contains the roots of the Feingold-Frenkel
-algebra up to height 200. On a modern computer it takes about
-12 hours to generate this file.
+algebra up to height 100. It takes about 6 minutes to generate
+this file. The files **roots_250.txt** contains all roots of the
+Feingold-Frenkel algebra up to height 250. It took 72 hours to
+generate this file.
 
 ## License
 Copyright © 2025 Hannes Malcha
