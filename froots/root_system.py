@@ -2,7 +2,7 @@
 
 # This file is part of Froots.
 #
-# Copyright (C) 2024 Hannes Malcha 
+# Copyright (C) 2025 Hannes Malcha 
 #
 # Froots is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,14 +27,14 @@
 
 
 """
-Froots is python package to construct the root system of the 
+Froots is a Python package to construct the root system of the  
 Feingold-Frenkel algebra to arbitrary height.
 
 Given an infinite dimensional algebra this class stores its root system.
 """
 
 import numpy as np
-from fractions import Fraction
+from .fraction import Fraction
 from .root import Root
 
 class Root_System:
@@ -235,7 +235,7 @@ class Root_System:
                 # Only calculate the mult is it hasn't been set before
                 if root.mult == 0:
                     # First try to get the multiplicity from another root in 
-					# this roots Weyl-orbit. We only need to do one simple Weyl-reflection 
+					# this roots Weyl orbit. We only need to do one simple Weyl reflection 
 					# down, as all the roots below this height have been calculated before.
 
 					# First determine the first positive Dynkin label.
@@ -256,7 +256,7 @@ class Root_System:
                     else:
                         root.mult = self._calculate_mult(root, _co_mult)
                         
-                root.co_mult = _co_mult + Fraction(root.mult)
+                root.co_mult = _co_mult.add(Fraction(int(root.mult)))
                 
             # Construct all the root multiples of the roots at the new height
             _multiples_list = []
@@ -308,7 +308,7 @@ class Root_System:
             _div_root = root.div(i)
             
             if _div_root is not None:
-                _co_mult += Fraction(self._get_root_mult(_div_root),i)
+                _co_mult = _co_mult.add(Fraction(int(self._get_root_mult(_div_root)),i))
                 
         return _co_mult
                     
@@ -331,35 +331,25 @@ class Root_System:
         _half_height = int(np.ceil(root.height() / 2))
         
         for i in range(1, _half_height):
-            _multiplicity += self._peterson_part(root, i)
+            _multiplicity = _multiplicity.add(self._peterson_part(root, i))
             
-        _multiplicity *= 2
+        _multiplicity = _multiplicity.times(2)
         
         if root.height() % 2 == 0:
-            _multiplicity += self._peterson_part(root, root.height()//2)
+            _multiplicity = _multiplicity.add(self._peterson_part(root, root.height()//2))
             
-        _multiplicity *= Fraction(1,self.algebra.inner_product(root, root) - (2 * self.algebra.rho(root)))
-        _multiplicity -= co_mult
-        
-        # Issue a warning if the multiplicity is not an integer.
-        # This usually happens as soon as one of the co-multiplicities
-        # is of the order 2^64.
-        # At the moment there is no fix for this.
-        # One should not trust the root system for heights at which
-        # the warning message is issued.
-        # Currently this height is 84.
-        if not _multiplicity.is_integer():
-            print("WARNING: Mult of root " + str(root.vector) + " is not an int but " + str(_multiplicity) + "." )
-        
+        _multiplicity = _multiplicity.multiply(Fraction(1,int(self.algebra.inner_product(root, root) - (2 * self.algebra.rho(root)))))
+        _multiplicity = _multiplicity.subtract(co_mult)
+                
         # Return the multiplicity as an integer
-        return round(_multiplicity)
+        return _multiplicity.toInt()
                 
 
     def _peterson_part(self, root, height):
         """
         Calculate a part of the Peterson formula.
         
-        That is the r.h.s for a given value of the height
+        That is the rhs for a given value of the height
         of one of the decomposition parts.
         """
         
@@ -371,9 +361,9 @@ class Root_System:
         _beta_multiples = self._root_multiples[height]
         _gamma_multiples = self._root_multiples[root.height() - height]
         
-        _multiplicity += self._peterson_sub_part(root, _beta_multiples, _gamma_multiples)
-        _multiplicity += self._peterson_sub_part(root, _betas, _gamma_multiples)
-        _multiplicity += self._peterson_sub_part(root, _beta_multiples, _gammas)
+        _multiplicity = _multiplicity.add(self._peterson_sub_part(root, _beta_multiples, _gamma_multiples))
+        _multiplicity = _multiplicity.add(self._peterson_sub_part(root, _betas, _gamma_multiples))
+        _multiplicity = _multiplicity.add(self._peterson_sub_part(root, _beta_multiples, _gammas))
         
         return _multiplicity
     
@@ -385,9 +375,9 @@ class Root_System:
         
         Keyword arguments:
             root: The root for which we compute the multiplicity
-            list_1: The first list of roots that is used in the r.h.s
+            list_1: The first list of roots that is used in the rhs
                     of the Peterson formula.
-            list_2: The second list of roots that is used in the r.h.s
+            list_2: The second list of roots that is used in the rhs
                     of the Peterson formula.
         """
         
@@ -398,10 +388,9 @@ class Root_System:
                     if beta.vector[i] + gamma.vector[i] != root.vector[i]:
                         break
                 else:
-                    _part = (beta.co_mult) * (gamma.co_mult)
-                    _part *= Fraction(self.algebra.inner_product(beta, gamma))
-                    _multiplicity += _part
-
+                    _part = beta.co_mult.multiply(gamma.co_mult)
+                    _part = _part.multiply(Fraction(int(self.algebra.inner_product(beta, gamma))))
+                    _multiplicity = _multiplicity.add(_part)
         return _multiplicity
 
 
